@@ -38,62 +38,62 @@ class _ProfileState extends State<Profile> {
                 ),
                 const SizedBox(height: 70),
                 Container(
-                  margin: EdgeInsets.all(12),
-                  padding: EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(15),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Colors.black,width: 3),
-                    borderRadius: BorderRadius.all(Radius.circular(10))
+                    borderRadius: const BorderRadius.all(Radius.circular(10))
                   ),
-                  child: Text('Name',style: TextStyle(fontWeight: FontWeight.bold),),
+                  child: const Text('Name',style: TextStyle(fontWeight: FontWeight.bold),),
                 ),
                 Container(
-                  margin: EdgeInsets.all(12),
-                  padding: EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(15),
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(color: Colors.black,width: 3),
-                      borderRadius: BorderRadius.all(Radius.circular(10))
+                      borderRadius: const BorderRadius.all(Radius.circular(10))
                   ),
-                  child: Text('Email',style: TextStyle(fontWeight: FontWeight.bold),),
+                  child: const Text('Email',style: TextStyle(fontWeight: FontWeight.bold),),
                 ),
                 Container(
-                  margin: EdgeInsets.all(12),
-                  padding: EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(15),
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(color: Colors.black,width: 3),
-                      borderRadius: BorderRadius.all(Radius.circular(10))
+                      borderRadius: const BorderRadius.all(Radius.circular(10))
                   ),
-                  child: Text('Number',style: TextStyle(fontWeight: FontWeight.bold),),
+                  child: const Text('Number',style: TextStyle(fontWeight: FontWeight.bold),),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      margin: EdgeInsets.all(12),
-                      padding: EdgeInsets.all(15),
+                      margin: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(15),
                       width: 120,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.black,width: 3),
-                          borderRadius: BorderRadius.all(Radius.circular(10))
+                          borderRadius: const BorderRadius.all(Radius.circular(10))
                       ),
-                      child: Text('Edit Profile',style: TextStyle(fontWeight: FontWeight.bold),),
+                      child: const Text('Edit Profile',style: TextStyle(fontWeight: FontWeight.bold),),
                     ),
                     Container(
-                      margin: EdgeInsets.all(12),
-                      padding: EdgeInsets.all(15),
+                      margin: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(15),
                       width: 120,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.black,width: 3),
-                          borderRadius: BorderRadius.all(Radius.circular(10))
+                          borderRadius: const BorderRadius.all(Radius.circular(10))
                       ),
-                      child: Text('Log out',style: TextStyle(fontWeight: FontWeight.bold),),
+                      child: const Text('Log out',style: TextStyle(fontWeight: FontWeight.bold),),
                     ),
                   ],
                 )
