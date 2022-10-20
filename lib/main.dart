@@ -48,17 +48,16 @@ class _HomeState extends State<Home> {
                 children: [
                   Container(
                     margin: const EdgeInsets.fromLTRB(80, 70, 80, 0),
-                      child: Lottie.network('https://assets5.lottiefiles.com/private_files/lf30_i83aodu2.json')
+                      child: Lottie.asset('assets/lootie_1.json')
                   ),
-                  const SizedBox(height: 20),
                   SafeArea(child:
                   Center(
-                    child: Text('Welcome Back!',
-                    style: GoogleFonts.courgette(
-                      textStyle: const TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold,letterSpacing: 2.0))
+                    child: Container(
+                        margin: const EdgeInsets.all(20),
+                        child: Lottie.asset('assets/lottie_2.json')
                     ),
-                  )),
-                  const SizedBox(height: 15),
+                  )
+                  ),
                   Container(
                     margin: const EdgeInsets.all(15.0),
                     decoration: BoxDecoration(
@@ -81,7 +80,6 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
                   Container(
                     margin: const EdgeInsets.all(15.0),
                     decoration: BoxDecoration(
@@ -108,7 +106,6 @@ class _HomeState extends State<Home> {
                       validator: RequiredValidator(errorText: "   "'*Required'),
                     ),
                   ),
-                  const SizedBox(height: 15),
                   Container(
                     margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     width: double.infinity,
@@ -135,7 +132,7 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       const Text('Not a member?',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),
                       ),
                       GestureDetector(
                         onTap: (){
@@ -144,7 +141,9 @@ class _HomeState extends State<Home> {
                         },
                         child: Text('Register now',
                         style: GoogleFonts.carterOne(
-                          textStyle: const TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w200))
+                          textStyle: const TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w200,
+                          decoration: TextDecoration.underline
+                          ))
                         ),
                       )
                     ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class Profile extends StatefulWidget {
   final String user;
@@ -28,15 +29,20 @@ class _ProfileState extends State<Profile> {
               children: [
                 const SizedBox(height: 50),
                 const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 75,
+                  radius: 90,
+                  backgroundColor: Colors.white70,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: AssetImage('assets/profile.jpg'),
+                    radius: 75,
+                  ),
                 ),
-                const SizedBox(height: 20),
-                Text('Hello User!',
-                    style: GoogleFonts.courgette(
-                        textStyle: const TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold,letterSpacing: 2.0))
+                Center(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 80,vertical: 0),
+                      child: Lottie.network('https://assets6.lottiefiles.com/packages/lf20_rbtawnwz.json')
+                  ),
                 ),
-                const SizedBox(height: 70),
                 Container(
                   margin: const EdgeInsets.all(12),
                   padding: const EdgeInsets.all(15),
