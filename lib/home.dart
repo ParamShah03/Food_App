@@ -1,12 +1,17 @@
 import 'package:app/SignIn.dart';
+import 'package:app/googleSignIn.dart';
 import 'package:app/main.dart';
 import 'package:app/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
 import 'Cuisine.dart';
 import 'Favorite.dart';
 import 'home1.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:app/register.dart';
+import 'package:app/googleSignIn.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -82,6 +87,7 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   final user = FirebaseAuth.instance.currentUser!;
 
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -108,7 +114,8 @@ class _NavBarState extends State<NavBar> {
                 SizedBox(height: 10,),
                 Text('Name',style: TextStyle(fontSize: 25,letterSpacing: 2,color: Colors.white),),
                 SizedBox(height: 5,),
-                Text(user.email!,style: TextStyle(fontSize: 15,letterSpacing: 1.5,color: Colors.white),),
+                Text('email',
+                  style: TextStyle(fontSize: 15,letterSpacing: 1.5,color: Colors.white),),
               ],
             ),
           ),
@@ -156,10 +163,11 @@ class _NavBarState extends State<NavBar> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
-              onTap:()async{
-                await FirebaseAuth.instance.signOut();
-                setState(() {});
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> LogIn()),);
+              onTap:(){
+                final provider = Provider.of
+                <GoogleSignInProvider>(context, listen: false);
+                provider.logOut();
+               // Navigator.push(context, MaterialPageRoute(builder: (context)=> LogIn()),);
               },
               leading: Icon(Icons.arrow_back),
               title: Text('Log Out'),
@@ -175,5 +183,6 @@ class _NavBarState extends State<NavBar> {
     );
   }
 }
+
 
 

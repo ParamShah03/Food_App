@@ -3,15 +3,19 @@ import 'package:app/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'googleSignIn.dart';
 
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MaterialApp(
-
-      home: Main(),
-      debugShowCheckedModeBanner: false
+  runApp(ChangeNotifierProvider(
+      create: (context)=> GoogleSignInProvider(),
+    child: MaterialApp(
+        home: Main(),
+        debugShowCheckedModeBanner: false
+    ),
   ));
 }
 

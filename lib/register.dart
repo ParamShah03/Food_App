@@ -1,18 +1,12 @@
+import 'package:app/googleSignIn.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:lottie/lottie.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import 'home.dart';
-
-void main() {
-  runApp(const MaterialApp(
-    home: Register(),
-    debugShowCheckedModeBanner: false
-));
-}
+import 'package:provider/provider.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -29,13 +23,11 @@ class _RegisterState extends State<Register> {
   final _formkey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
 
   @override
   Widget build(BuildContext context) {
-    GoogleSignInAccount? user = _googleSignIn.currentUser;
-    return Scaffold(
+      return Scaffold(
       body: Stack(
           children: <Widget>[
             Container(
@@ -211,8 +203,7 @@ class _RegisterState extends State<Register> {
                           return;
                         }
                         try {
-                          await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
+                          await FirebaseAuth.instance.createUserWithEmailAndPassword(
                               email: emailController.text,
                               password: passwordController.text);
                           Navigator.push(context, MaterialPageRoute(builder: (context) => Home()),);
@@ -238,19 +229,21 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                     ),
-                    const Divider(
-                      color: Colors.white, thickness: 3, height: 20,),
+                    const Divider(color: Colors.white, thickness: 3, height: 20,),
                     GestureDetector(
-                      onTap: () async {
-                          await _googleSignIn.signIn();
-                        setState(() {});
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()),);
-
+                      onTap: ()  {
+                        final provider = Provider.of
+                          <GoogleSignInProvider>(context, listen: false);
+                        provider.googleLogin();
+                         //Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()),);
                       },
 
                       child: Container(
-                          margin: const EdgeInsets.fromLTRB(110, 0, 110, 0),
-                          child: Lottie.asset('assets/google.json')
+                        color: Colors.white,
+                          height: 50,
+                          width: 120,
+                          margin: const EdgeInsets.fromLTRB(110, 20, 110, 0),
+                          child: Text('Google Sign Up')
                       ),
                     ),
                   ],
@@ -259,6 +252,7 @@ class _RegisterState extends State<Register> {
             ),
           ]
       ),
-    );
+      );
+
   }
 }
