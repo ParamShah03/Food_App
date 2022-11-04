@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'home.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -18,12 +19,15 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   bool obscureText1 = true;
   bool obscureText2 = true;
+  int i=1;
   String password='';
   String errorMessage = '';
   final _formkey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final nameController = TextEditingController();
+  final numberController = TextEditingController();
+  final firestoreInstance = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +58,7 @@ class _RegisterState extends State<Register> {
                           border: Border.all(color: Colors.black)
                       ),
                       child: TextFormField(
+                        controller: nameController,
                         decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.person, color: Colors.black),
                           labelText: 'Name',
@@ -68,30 +73,31 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                     ),
-                    // Container(
-                    // margin: const EdgeInsets.all(15.0),
-                    //decoration: BoxDecoration(
-                    //  color: Colors.white,
-                    //borderRadius: BorderRadius.circular(10),
-                    //border: Border.all(color: Colors.black)
-                    //),
-                    //child: TextFormField(
-                    //decoration: const InputDecoration(
-                    // prefixIcon: Icon(Icons.phone,color: Colors.black),
-                    //labelText: 'Number',
-                    //labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                    //hintText: '+91/-',
-                    //),
-                    //validator: MultiValidator(
-                    //[
-                    //RequiredValidator(errorText: "   "'*Required'),
-                    //PatternValidator(r'^[0-9]+$', errorText: 'Enter correct number'),
-                    //MaxLengthValidator(10, errorText: 'Enter a valid number'),
-                    //MinLengthValidator(10, errorText: 'Enter a valid number'),
-                    //]
-                    //)
-                    //),
-                    //),
+                    Container(
+                       margin: const EdgeInsets.all(15.0),
+                       decoration: BoxDecoration(
+                           color: Colors.white,
+                           borderRadius: BorderRadius.circular(10),
+                           border: Border.all(color: Colors.black)
+                    ),
+                     child: TextFormField(
+                       controller: numberController,
+                      decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.phone,color: Colors.black),
+                      labelText: 'Number',
+                      labelStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                      hintText: '+91/-',
+                    ),
+                       validator: MultiValidator(
+                         [
+                           RequiredValidator(errorText: "   "'*Required'),
+                           PatternValidator(r'^[0-9]+$', errorText: 'Enter correct number'),
+                           MaxLengthValidator(10, errorText: 'Enter a valid number'),
+                           MinLengthValidator(10, errorText: 'Enter a valid number'),
+                    ]
+                         )
+                       ),
+                    ),
                     Container(
                       margin: const EdgeInsets.all(15.0),
                       decoration: BoxDecoration(
@@ -110,8 +116,7 @@ class _RegisterState extends State<Register> {
                         ),
                         validator: MultiValidator(
                             [
-                              EmailValidator(
-                                  errorText: "  "'Please enter a valid email address'),
+                              EmailValidator(errorText: "  "'Please enter a valid email address'),
                               RequiredValidator(errorText: "    "'*Required')
                             ]
                         ),
@@ -199,6 +204,7 @@ class _RegisterState extends State<Register> {
                         border: Border.all(color: Colors.white),
                       ),
                       child: ElevatedButton(onPressed: () async {
+
                         if (!_formkey.currentState!.validate()) {
                           return;
                         }
@@ -206,6 +212,14 @@ class _RegisterState extends State<Register> {
                           await FirebaseAuth.instance.createUserWithEmailAndPassword(
                               email: emailController.text,
                               password: passwordController.text);
+                          var user = FirebaseAuth.instance.currentUser;
+                          await firestoreInstance.collection('users').doc(user?.uid).set(
+                              {
+                                "name": nameController.text,
+                                "number": numberController.text,
+                                "password": passwordController.text
+                              }
+                          );
                           Navigator.push(context, MaterialPageRoute(builder: (context) => Home()),);
                           errorMessage = '';
                         } on FirebaseAuthException catch (error) {
@@ -229,21 +243,20 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                     ),
-                    const Divider(color: Colors.white, thickness: 3, height: 20,),
+                    const Divider(color: Colors.white, thickness: 3, height: 10,),
                     GestureDetector(
-                      onTap: ()  {
-                        final provider = Provider.of
-                          <GoogleSignInProvider>(context, listen: false);
-                        provider.googleLogin();
-                         //Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()),);
+                      onTap: () async {
+                        final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+                        await provider.googleLogin();
+                        if(FirebaseAuth.instance.currentUser!=null)
+                        { Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()),);}
                       },
-
                       child: Container(
                         color: Colors.white,
-                          height: 50,
-                          width: 120,
-                          margin: const EdgeInsets.fromLTRB(110, 20, 110, 0),
-                          child: Text('Google Sign Up')
+                          height: 90,
+                          width: 90,
+                          margin: const EdgeInsets.fromLTRB(110, 10, 110, 0),
+                          child: Lottie.asset('assets/google.json')
                       ),
                     ),
                   ],

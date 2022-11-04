@@ -154,8 +154,8 @@ class _LogInState extends State<LogIn> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Text('Not a member?',
-                          style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),
+                       const  Text('Not a member?',
+                          style: TextStyle(fontSize: 20,color: Colors.yellowAccent,fontWeight: FontWeight.bold),
                         ),
                         GestureDetector(
                           onTap: (){

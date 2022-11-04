@@ -2,6 +2,7 @@ import 'package:app/SignIn.dart';
 import 'package:app/googleSignIn.dart';
 import 'package:app/main.dart';
 import 'package:app/profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -21,14 +22,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int index= 0;
-  List<String> title = [
-    'Home', 'Favorite','Cuisine'
-  ];
+  int index = 0;
+  List<String> title = ['Home', 'Favorite', 'Cuisine'];
 
-  List<Widget> pages = const [
-    Home1(),Favorite(),Cuisine()
-  ];
+  List<Widget> pages = const [Home1(), Favorite(), Cuisine()];
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +35,7 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         backgroundColor: Colors.brown,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom:Radius.circular(20) )
-        ),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
         elevation: 0,
       ),
       drawer: const NavBar(),
@@ -52,23 +48,32 @@ class _HomeState extends State<Home> {
           color: Colors.brown,
         ),
         child: Padding(
-          padding:  const EdgeInsets.all(8.0),
-          child:  GNav(
+          padding: const EdgeInsets.all(8.0),
+          child: GNav(
             gap: 5,
             backgroundColor: Colors.brown,
             color: Colors.white,
             activeColor: Colors.white,
             tabBackgroundColor: Colors.grey,
             padding: const EdgeInsets.all(15),
-            onTabChange: (int num){
-             setState(() {
-              index = num;
+            onTabChange: (int num) {
+              setState(() {
+                index = num;
               });
             },
             tabs: [
-              GButton(icon: Icons.home, text: title[0],),
-              GButton(icon: Icons.star, text: title[1],),
-              GButton(icon: Icons.restaurant, text: title[2],),
+              GButton(
+                icon: Icons.home,
+                text: title[0],
+              ),
+              GButton(
+                icon: Icons.star,
+                text: title[1],
+              ),
+              GButton(
+                icon: Icons.restaurant,
+                text: title[2],
+              ),
             ],
           ),
         ),
@@ -86,103 +91,134 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   final user = FirebaseAuth.instance.currentUser!;
-
+  final userCollection = FirebaseFirestore.instance.collection('users');
+  String? name;
+  Future<String> getUserData() async {
+    DocumentSnapshot data = await userCollection.doc(user.uid).get();
+    name = data.get("name");
+    return name!;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Column(
-        children: [
-          Container(
-
-            width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(25, 60, 25, 5),
-            decoration: BoxDecoration(
-              color: Colors.brown,
-              image: DecorationImage(image: AssetImage('assets/bricks.jpg'),fit: BoxFit.cover)
-            ),
+    final user = FirebaseAuth.instance.currentUser!;
+    return FutureBuilder(
+      future: getUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting)
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        return Drawer(
             child: Column(
-              children: [
-                const CircleAvatar(
-                  radius: 80,
-                  backgroundColor: Colors.black45,
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/profile.jpg'),
-                    radius: 75,
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(25, 60, 25, 5),
+              decoration: const BoxDecoration(
+                  color: Colors.brown,
+                  image: DecorationImage(
+                      image: AssetImage('assets/bricks.jpg'),
+                      fit: BoxFit.cover)),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundColor: Colors.black45,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage((user.photoURL == null
+                          ? "https://www.google.com/imgres?imgurl=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Fdefault-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392%3Fk%3D20%26m%3D1223671392%26s%3D612x612%26w%3D0%26h%3DlGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0%3D&imgrefurl=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fprofile-avatar&tbnid=vzXbYZ4nxFQ_JM&vet=12ahUKEwiEvbH764_7AhVl-HMBHfBEA2kQMygMegUIARD6AQ..i&docid=t12EXnbCus7-DM&w=612&h=612&q=profile%20image&ved=2ahUKEwiEvbH764_7AhVl-HMBHfBEA2kQMygMegUIARD6AQ "
+                          : user.photoURL!)),
+                      radius: 75,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                Text('Name',style: TextStyle(fontSize: 25,letterSpacing: 2,color: Colors.white),),
-                SizedBox(height: 5,),
-                Text('email',
-                  style: TextStyle(fontSize: 15,letterSpacing: 1.5,color: Colors.white),),
-              ],
-            ),
-          ),
-          SizedBox(height: 30,),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ListTile(
-              onTap: (){
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context)=> Profile()),);
-              },
-              leading: Icon(Icons.person),
-              title: Text('My Profile'),
-              tileColor: Colors.brown[200],
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 2),
-                borderRadius: BorderRadius.circular(10)
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    (user.displayName == null ? name! : user.displayName!),
+                    style: TextStyle(
+                        fontSize: 25, letterSpacing: 2, color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    user.email!,
+                    style: TextStyle(
+                        fontSize: 15, letterSpacing: 1.5, color: Colors.white),
+                  ),
+                ],
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              tileColor: Colors.brown[200],
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 2),
-                  borderRadius: BorderRadius.circular(10)
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Profile()),
+                  );
+                },
+                leading: Icon(Icons.person),
+                title: Text('My Profile'),
+                tileColor: Colors.brown[200],
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 2),
+                    borderRadius: BorderRadius.circular(10)),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ListTile(
-              leading: Icon(Icons.help_outline_rounded),
-              title: Text('Contact Us'),
-              tileColor: Colors.brown[200],
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 2),
-                  borderRadius: BorderRadius.circular(10)
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                tileColor: Colors.brown[200],
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 2),
+                    borderRadius: BorderRadius.circular(10)),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ListTile(
-              onTap:(){
-                final provider = Provider.of
-                <GoogleSignInProvider>(context, listen: false);
-                provider.logOut();
-               // Navigator.push(context, MaterialPageRoute(builder: (context)=> LogIn()),);
-              },
-              leading: Icon(Icons.arrow_back),
-              title: Text('Log Out'),
-              tileColor: Colors.brown[200],
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 2),
-                  borderRadius: BorderRadius.circular(10)
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ListTile(
+                leading: Icon(Icons.help_outline_rounded),
+                title: Text('Contact Us'),
+                tileColor: Colors.brown[200],
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 2),
+                    borderRadius: BorderRadius.circular(10)),
               ),
             ),
-          ),
-        ],
-      ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ListTile(
+                onTap: () async {
+                  final provider =
+                      Provider.of<GoogleSignInProvider>(context, listen: false);
+                  provider.logOut();
+                  await FirebaseAuth.instance.signOut();
+                  //setState(() {});
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LogIn()),
+                  );
+                },
+                leading: Icon(Icons.arrow_back),
+                title: Text('Log Out'),
+                tileColor: Colors.brown[200],
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 2),
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+          ],
+        )
+        );
+      },
     );
   }
 }
-
-
-
