@@ -45,7 +45,7 @@ class _RegisterState extends State<Register> {
 
             Form(
               key: _formkey,
-              autovalidateMode: AutovalidateMode.always,
+              autovalidateMode: AutovalidateMode.disabled,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -204,6 +204,12 @@ class _RegisterState extends State<Register> {
                         border: Border.all(color: Colors.white),
                       ),
                       child: ElevatedButton(onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context){
+                            return Center(child: CircularProgressIndicator());
+                          },
+                        );
 
                         if (!_formkey.currentState!.validate()) {
                           return;
@@ -232,6 +238,7 @@ class _RegisterState extends State<Register> {
                             ),
                           );
                         }
+                        Navigator.of(context).pop();
                         setState(() {});
                       },
                         style: ElevatedButton.styleFrom(
@@ -246,10 +253,13 @@ class _RegisterState extends State<Register> {
                     const Divider(color: Colors.white, thickness: 3, height: 10,),
                     GestureDetector(
                       onTap: () async {
+
                         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                         await provider.googleLogin();
                         if(FirebaseAuth.instance.currentUser!=null)
                         { Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()),);}
+                        else{Center(child: CircularProgressIndicator());}
+                        //Navigator.of(context).pop();
                       },
                       child: Container(
                         color: Colors.white,

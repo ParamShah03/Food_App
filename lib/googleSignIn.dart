@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +13,14 @@ class GoogleSignInProvider extends ChangeNotifier{
   GoogleSignInAccount get user => _user!;
 
   Future googleLogin() async {
+    // showDialog(
+    //     context: context,
+    //     builder: (context){
+    //       return Center(child: CircularProgressIndicator());
+    //     },
+    // );
+
+
     final googleUser = await googleSignIn.signIn();
     if(googleUser== null) return;
     _user = googleUser;

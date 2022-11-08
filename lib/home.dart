@@ -197,6 +197,13 @@ class _NavBarState extends State<NavBar> {
               padding: const EdgeInsets.all(10.0),
               child: ListTile(
                 onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context){
+                      return Center(child: CircularProgressIndicator());
+                    },
+                  );
+
                   final provider =
                       Provider.of<GoogleSignInProvider>(context, listen: false);
                   provider.logOut();
@@ -206,6 +213,7 @@ class _NavBarState extends State<NavBar> {
                     context,
                     MaterialPageRoute(builder: (context) => LogIn()),
                   );
+                  Navigator.of(context).pop();
                 },
                 leading: Icon(Icons.arrow_back),
                 title: Text('Log Out'),

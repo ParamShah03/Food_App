@@ -123,9 +123,16 @@ class _LogInState extends State<LogIn> {
                         border: Border.all(color: Colors.white),
                       ),
                       child: ElevatedButton(onPressed: () async{
+                        showDialog(
+                              context: context,
+                              builder: (context){
+                                return Center(child: CircularProgressIndicator());
+                              },
+                          );
                         if (!_formkey.currentState!.validate()){
                           return;
-                        } try {
+                        }
+                        try {
                           await FirebaseAuth.instance.signInWithEmailAndPassword(
                               email: email.text, password: password.text);
                           Navigator.push(context, MaterialPageRoute(builder: (context) => Home()),);
@@ -139,8 +146,8 @@ class _LogInState extends State<LogIn> {
                               ),
                           );
                         }
+                        Navigator.of(context).pop();
                           setState(() {});
-
 
                         },
 
