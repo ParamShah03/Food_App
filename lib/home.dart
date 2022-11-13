@@ -1,6 +1,5 @@
 import 'package:app/SignIn.dart';
 import 'package:app/googleSignIn.dart';
-import 'package:app/main.dart';
 import 'package:app/profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,10 +8,9 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'Cuisine.dart';
 import 'Favorite.dart';
+import 'Search.dart';
 import 'home1.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:app/register.dart';
-import 'package:app/googleSignIn.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -37,6 +35,14 @@ class _HomeState extends State<Home> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
         elevation: 0,
+        actions: [
+          IconButton(
+              onPressed: (){
+                showSearch(context: context, delegate: CustomSearchDelegate());
+              },
+              icon: Icon(Icons.search_sharp)
+          )
+        ],
       ),
       drawer: const NavBar(),
       body: pages[index],

@@ -13,10 +13,10 @@ class ApiService{
   RecipesMain? recipesMain;
   List<Recipes> _recipesList=[];
 
-  getApiData() async {
+  getApiData(String? query) async {
 
     http.Response response = await http.get(Uri.parse(
-        'https://api.spoonacular.com/recipes/random?apiKey=790a770402d74aa7904fec399c6f59b4&number=2'
+        'https://api.spoonacular.com/recipes/random?apiKey=790a770402d74aa7904fec399c6f59b4&number=3'
     ));
     try{
       if(response.statusCode == 200) {
@@ -36,7 +36,9 @@ class ApiService{
         // });
         var recipesMain = RecipesMain.fromJson(data);
         _recipesList = recipesMain.recipes;
-
+        if(query!=null){
+          _recipesList = _recipesList!.where((element) => element.title!.toLowerCase().contains(query.toLowerCase())).toList();
+        }
       } else {
         print(response.statusCode);
 
