@@ -49,6 +49,9 @@ class CustomSearchDelegate extends SearchDelegate{
                 image: recipe.image!,
                 isVeg: recipe.vegetarian,
                 time: recipe.readyInMinutes!.toString(),
+                info: recipe.instructions!,
+                cuisine: recipe.cuisines[0],
+                servings: recipe.servings.toString(),
               );
             },
             separatorBuilder: (context,index){

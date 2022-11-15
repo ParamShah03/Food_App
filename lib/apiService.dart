@@ -7,7 +7,9 @@ class ApiService{
   String? title;
   String? time;
   String? image;
+  String? cuisine;
   String? servings;
+  String? info;
   bool? isVeg;
   String? e;
   RecipesMain? recipesMain;
@@ -16,7 +18,7 @@ class ApiService{
   getApiData(String? query) async {
 
     http.Response response = await http.get(Uri.parse(
-        'https://api.spoonacular.com/recipes/random?apiKey=790a770402d74aa7904fec399c6f59b4&number=3'
+        'https://api.spoonacular.com/recipes/random?apiKey=790a770402d74aa7904fec399c6f59b4&number=1'
     ));
     try{
       if(response.statusCode == 200) {
@@ -24,8 +26,10 @@ class ApiService{
         title = data["recipes"][0]["title"].toString();
         time = data["recipes"][0]["readyInMinutes"].toString();
         image = data["recipes"][0]["image"];
-        servings = data["recipes"][0]["servings"].toString();
         isVeg = data['recipes'][0]['vegetarian'];
+        // servings = data["recipes"][0]["servings"].toString();
+        // cuisine = data['recipes'][0]['cuisines'][0];
+        // info = data['recipes'][[0]]['instructions'];
         // debugPrint(title);
         // debugPrint(time);
         //debugPrint(image);
