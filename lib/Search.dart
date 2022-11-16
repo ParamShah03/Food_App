@@ -41,7 +41,7 @@ class CustomSearchDelegate extends SearchDelegate{
           }
           return ListView.separated(
             shrinkWrap: true,
-            itemCount: _recipesList!.length,
+            itemCount: _recipesList!.length.compareTo(0),
             itemBuilder: (BuildContext context, int index) {
               Recipes recipe = _recipesList![index];
               return RecipesData(
@@ -50,7 +50,7 @@ class CustomSearchDelegate extends SearchDelegate{
                 isVeg: recipe.vegetarian,
                 time: recipe.readyInMinutes!.toString(),
                 info: recipe.instructions!,
-                cuisine: recipe.cuisines[0],
+                //cuisine: recipe.cuisines[0],
                 servings: recipe.servings.toString(),
               );
             },

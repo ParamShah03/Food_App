@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'models.dart';
@@ -7,26 +6,26 @@ class ApiService{
   String? title;
   String? time;
   String? image;
-  String? cuisine;
+  // String? cuisine;
   String? servings;
   String? info;
   bool? isVeg;
   String? e;
   RecipesMain? recipesMain;
-  List<Recipes> _recipesList=[];
+  List<Recipes> _recipesList =[];
 
   getApiData(String? query) async {
 
     http.Response response = await http.get(Uri.parse(
-        'https://api.spoonacular.com/recipes/random?apiKey=790a770402d74aa7904fec399c6f59b4&number=1'
+        'https://api.spoonacular.com/recipes/random?apiKey=6cc1b0e3bed04f34bcc64f54a1cf4856&number=2'
     ));
     try{
       if(response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        title = data["recipes"][0]["title"].toString();
-        time = data["recipes"][0]["readyInMinutes"].toString();
-        image = data["recipes"][0]["image"];
-        isVeg = data['recipes'][0]['vegetarian'];
+        // title = data["recipes"][0]["title"].toString();
+        // time = data["recipes"][0]["readyInMinutes"].toString();
+        // image = data["recipes"][0]["image"];
+        // isVeg = data['recipes'][0]['vegetarian'];
         // servings = data["recipes"][0]["servings"].toString();
         // cuisine = data['recipes'][0]['cuisines'][0];
         // info = data['recipes'][[0]]['instructions'];
@@ -35,9 +34,7 @@ class ApiService{
         //debugPrint(image);
         // debugPrint(servings);
         print(response.statusCode);
-        // setState(() {
-        //
-        // });
+
         var recipesMain = RecipesMain.fromJson(data);
         _recipesList = recipesMain.recipes;
         if(query!=null){

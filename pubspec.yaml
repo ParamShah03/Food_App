@@ -48,6 +48,7 @@ dependencies:
   http: ^0.13.5
   html: ^0.15.1
   sliding_up_panel: ^2.0.0+1
+  page_transition: "^2.0.9"
 
 
 dev_dependencies:

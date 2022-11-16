@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'Cuisine.dart';
 import 'Favorite.dart';
@@ -166,7 +167,9 @@ class _NavBarState extends State<NavBar> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Profile()),
+                    PageTransition(
+                      type: PageTransitionType.rightToLeftWithFade,
+                        child: Profile()),
                   );
                 },
                 leading: Icon(Icons.person),
@@ -217,7 +220,9 @@ class _NavBarState extends State<NavBar> {
                   //setState(() {});
                   await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LogIn()),
+                    PageTransition(
+                      type: PageTransitionType.fade,
+                        child: LogIn()),
                   );
                   Navigator.of(context).pop();
                 },

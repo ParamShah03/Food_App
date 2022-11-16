@@ -7,6 +7,7 @@ import 'package:app/register.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:page_transition/page_transition.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -167,7 +168,12 @@ class _LogInState extends State<LogIn> {
                         GestureDetector(
                           onTap: (){
                             Navigator.push(
-                              context, MaterialPageRoute(builder: (context)=> Register()),);
+                              context, PageTransition(
+                              type: PageTransitionType.rightToLeftJoined,
+                                childCurrent: widget,
+                                duration: Duration(milliseconds: 400),
+                                reverseDuration: Duration(microseconds: 300),
+                                child: Register()),);
                           },
                           child: Text('Register now',
                               style: GoogleFonts.carterOne(

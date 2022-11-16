@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'Recipe_Info.dart';
 import 'models.dart';
 import 'package:app/apiService.dart';
@@ -14,10 +15,11 @@ class Home1 extends StatefulWidget {
 
 class _Home1State extends State<Home1> {
 
-  List<Recipes> _recipesList= [];
+  List<Recipes> _recipesList = [];
   String? query;
   getRecipeData() async {
     _recipesList = await ApiService().getApiData(query)!;
+    print(_recipesList.length);
    }
 
   @override
@@ -36,26 +38,31 @@ class _Home1State extends State<Home1> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          }
-          return ListView.separated(
-            shrinkWrap: true,
-            itemCount: _recipesList.length,
-            itemBuilder: (BuildContext context, int index) {
-              Recipes recipe = _recipesList[index];
-              return RecipesData(
+          } else {
+            return ListView.separated(
+              shrinkWrap: true,
+              itemCount: _recipesList!.length.compareTo(0),
+              itemBuilder: (BuildContext context, int index) {
+                Recipes recipe = _recipesList[index];
+                return RecipesData(
                     title: recipe.title!,
                     image: recipe.image!,
                     isVeg: recipe.vegetarian,
                     time: recipe.readyInMinutes.toString(),
                     info: recipe.instructions!,
                     servings: recipe.servings.toString(),
-                    cuisine: recipe.cuisines[0]
-                  );
-            },
-            separatorBuilder: (context,index){
-              return SizedBox(height: 5,);
-            },
-          );
+                    //cuisine: recipe.cuisines[0]
+                );
+              },
+              separatorBuilder: (context,index){
+                return SizedBox(height: 5,);
+              },
+            );
+          }
+          // else {
+          //   return Center(child: Text('Some Error Occured'),);
+          // }
+
         }
       )
     );
@@ -67,7 +74,7 @@ class RecipesData extends StatefulWidget {
   final String image;
   final String time;
   final String info;
-  final String cuisine;
+ // final String cuisine;
   final String servings;
   final bool isVeg;
 
@@ -75,7 +82,7 @@ class RecipesData extends StatefulWidget {
   const RecipesData({Key? key,
     required this.title,
     required this.image,
-    required this.cuisine,
+    //required this.cuisine,
     required this.time,
     required this.info,
     required this.isVeg,
@@ -99,14 +106,17 @@ class _RecipesDataState extends State<RecipesData> {
       child: GestureDetector(
         onTap: (){
           Navigator.push(
-            context, MaterialPageRoute(builder: (context)=> Details(
+            context, PageTransition(
+              type: PageTransitionType.size,
+              alignment: Alignment.bottomCenter,
+              child: Details(
             title: widget.title,
             time: widget.time,
             image: widget.image,
             isVeg: widget.isVeg,
             info: widget.info,
             servings: widget.servings,
-            cuisine: widget.cuisine
+            //cuisine: widget.cuisine
           )),);
         },
         child: Container(
@@ -160,36 +170,35 @@ class _RecipesDataState extends State<RecipesData> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.0),
                   child: IconButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         setState(() {
                           like = !like;
                         });
 
                         if(like==true){
-                          await firestoreInstance.collection('users').doc(user?.uid).set(
-                            {
-                              "title": widget.title,
-                              "image": widget.image,
-                              "time": widget.time,
-                              "servings": widget.servings,
-                              "info": widget.info,
-                              "cuisine": widget.cuisine
-                            }
-                          );
+                          await firestoreInstance.collection('users').doc(user?.uid).set({
+                                "title": widget.title,
+                                "image": widget.image,
+                                "time": widget.time,
+                                "servings": widget.servings,
+                                "info": widget.info,
+                                //"cuisine": widget.cuisine
+                              });
                           await firestoreInstance.collection('users').doc(user?.uid).update({
                             "isVeg": widget.isVeg
                           });
                         } else{
                           await firestoreInstance.collection('users').doc(user?.uid).update({
-                            "title": null,
-                            "image": null,
-                            "time": null,
-                            "servings": null,
-                            "info": null,
-                            "cuisine": null,
-                            "isVeg": null
+                            "title": FieldValue.delete(),
+                            "image": FieldValue.delete(),
+                            "time": FieldValue.delete(),
+                            "servings": FieldValue.delete(),
+                            "info": FieldValue.delete(),
+                            "cuisine":FieldValue.delete(),
+                            "isVeg": FieldValue.delete()
                           });
                         }
+
                       },
                       icon: Icon(
                         (like==false? Icons.star_border:Icons.star),

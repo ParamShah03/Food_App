@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:lottie/lottie.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:page_transition/page_transition.dart';
 import 'home.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -226,7 +227,10 @@ class _RegisterState extends State<Register> {
                                 "password": passwordController.text
                               }
                           );
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()),);
+                          Navigator.push(context, PageTransition(
+                            type: PageTransitionType.rotate,
+                              alignment: Alignment.bottomCenter,
+                              child: Home()),);
                           errorMessage = '';
                         } on FirebaseAuthException catch (error) {
                           errorMessage = error.message!;
@@ -257,7 +261,12 @@ class _RegisterState extends State<Register> {
                         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                         await provider.googleLogin();
                         if(FirebaseAuth.instance.currentUser!=null)
-                        { Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()),);}
+                        {
+                          Navigator.push(context, PageTransition(
+                            type: PageTransitionType.rotate,
+                              alignment: Alignment.bottomCenter,
+                              child: Home()),);
+                        }
                         else{Center(child: CircularProgressIndicator());}
                         //Navigator.of(context).pop();
                       },

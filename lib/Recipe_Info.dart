@@ -8,7 +8,7 @@ class Details extends StatefulWidget {
   final String image;
   final String time;
   final String info;
-  final String cuisine;
+ // final String cuisine;
   final String servings;
   final bool isVeg;
 
@@ -16,7 +16,7 @@ class Details extends StatefulWidget {
     required this.title,
     required this.info,
     required this.image,
-    required this.cuisine,
+    //required this.cuisine,
     required this.servings,
     required this.time,
     required this.isVeg
@@ -139,7 +139,7 @@ class _DetailsState extends State<Details> {
                       children: [
                         Icon(Icons.restaurant),
                         SizedBox(width: 5,),
-                        Text((widget.cuisine==null? "None" : widget.cuisine)),
+                        Text("None"),
                       ],
                     ),
                     SizedBox(height: 5,),
