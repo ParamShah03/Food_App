@@ -1,10 +1,11 @@
-import 'package:app/SignIn.dart';
-import 'package:app/home.dart';
+import 'package:app/LogIn/SignIn.dart';
+import 'package:app/Screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'googleSignIn.dart';
+import 'Screens/home.dart';
+import 'Service/googleSignIn.dart';
 
 
 Future<void> main() async {
