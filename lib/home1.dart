@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'Favorite_Provider.dart';
 import 'Recipe_Info.dart';
+import 'Favs.dart';
 import 'models.dart';
 import 'package:app/apiService.dart';
+import 'package:provider/provider.dart';
 
 class Home1 extends StatefulWidget {
   const Home1({Key? key}) : super(key: key);
@@ -41,7 +44,7 @@ class _Home1State extends State<Home1> {
           } else {
             return ListView.separated(
               shrinkWrap: true,
-              itemCount: _recipesList!.length.compareTo(0),
+              itemCount: _recipesList!.length,
               itemBuilder: (BuildContext context, int index) {
                 Recipes recipe = _recipesList[index];
                 return RecipesData(
@@ -51,6 +54,8 @@ class _Home1State extends State<Home1> {
                     time: recipe.readyInMinutes.toString(),
                     info: recipe.instructions!,
                     servings: recipe.servings.toString(),
+                    c: 0,
+                    docId: ''
                     //cuisine: recipe.cuisines[0]
                 );
               },
@@ -77,15 +82,19 @@ class RecipesData extends StatefulWidget {
  // final String cuisine;
   final String servings;
   final bool isVeg;
+  int c;
+  String docId;
 
 
-  const RecipesData({Key? key,
+  RecipesData({Key? key,
     required this.title,
     required this.image,
     //required this.cuisine,
     required this.time,
     required this.info,
     required this.isVeg,
+    required this.docId,
+    required this.c,
     required this.servings})
       : super(key: key, );
 
@@ -95,11 +104,29 @@ class RecipesData extends StatefulWidget {
 
 class _RecipesDataState extends State<RecipesData> {
   bool like = false;
+  String? docID;
   var user = FirebaseAuth.instance.currentUser;
   final firestoreInstance = FirebaseFirestore.instance;
 
+  Future createFavorite(Favs fav) async {
+    final docFav = firestoreInstance.collection("users").doc(user?.uid).collection('Favorite').doc();
+    fav.id = docFav.id;
+    docID = fav.id;
+    final json = fav.toJson();
+    await docFav.set(json);
+    widget.c = widget.c + 1;
+  }
 
-  @override
+  void deleteFavorite() async {
+    final docFav =
+    firestoreInstance.collection("users").doc(user?.uid).collection("Favorites").doc(docID);
+    await docFav.delete();
+    widget.c = widget.c - 1;
+  }
+
+
+
+@override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
@@ -175,28 +202,27 @@ class _RecipesDataState extends State<RecipesData> {
                           like = !like;
                         });
 
-                        if(like==true){
-                          await firestoreInstance.collection('users').doc(user?.uid).set({
-                                "title": widget.title,
-                                "image": widget.image,
-                                "time": widget.time,
-                                "servings": widget.servings,
-                                "info": widget.info,
-                                //"cuisine": widget.cuisine
-                              });
-                          await firestoreInstance.collection('users').doc(user?.uid).update({
-                            "isVeg": widget.isVeg
-                          });
-                        } else{
-                          await firestoreInstance.collection('users').doc(user?.uid).update({
-                            "title": FieldValue.delete(),
-                            "image": FieldValue.delete(),
-                            "time": FieldValue.delete(),
-                            "servings": FieldValue.delete(),
-                            "info": FieldValue.delete(),
-                            "cuisine":FieldValue.delete(),
-                            "isVeg": FieldValue.delete()
-                          });
+                        if(like==true && widget.c==0) {
+
+                          createFavorite(Favs(
+                              info: widget.info,
+                              image: widget.image,
+                              isVeg: widget.isVeg,
+                              time: widget.time,
+                              title: widget.title,
+                            servings: widget.servings,
+                            id: widget.docId
+                          ));
+                          // FavoriteProvider.addFavoriteData(
+                          //   title: widget.title,
+                          //   time: widget.time,
+                          //   servings: widget.servings,
+                          //   info: widget.info,
+                          //   image: widget.image,
+                          //   isVeg: widget.isVeg
+                          // );
+                        } if (like == false && widget.c > 0) {
+                          deleteFavorite();
                         }
 
                       },

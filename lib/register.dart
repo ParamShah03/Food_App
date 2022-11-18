@@ -257,7 +257,6 @@ class _RegisterState extends State<Register> {
                     const Divider(color: Colors.white, thickness: 3, height: 10,),
                     GestureDetector(
                       onTap: () async {
-
                         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                         await provider.googleLogin();
                         if(FirebaseAuth.instance.currentUser!=null)

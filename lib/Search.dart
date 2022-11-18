@@ -41,11 +41,13 @@ class CustomSearchDelegate extends SearchDelegate{
           }
           return ListView.separated(
             shrinkWrap: true,
-            itemCount: _recipesList!.length.compareTo(0),
+            itemCount: _recipesList!.length,
             itemBuilder: (BuildContext context, int index) {
               Recipes recipe = _recipesList![index];
               return RecipesData(
                 title: recipe.title!,
+                c: 0,
+                docId: '',
                 image: recipe.image!,
                 isVeg: recipe.vegetarian,
                 time: recipe.readyInMinutes!.toString(),
