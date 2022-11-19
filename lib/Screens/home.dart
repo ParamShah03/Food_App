@@ -22,16 +22,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int index = 0;
+  int currentIndex = 0;
   List<String> title = ['Home', 'Favorite', 'Cuisine'];
 
-  List<Widget> pages = const [Home1(), Favorite(), Cuisine()];
+  final pages = const [Home1(), Favorite(), Cuisine()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title[index]),
+        title: Text(title[currentIndex]),
         centerTitle: true,
         backgroundColor: Colors.brown,
         shape: const RoundedRectangleBorder(
@@ -40,9 +40,9 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
               onPressed: (){
-                if(index==0){
+                if(currentIndex==0){
                   showSearch(context: context, delegate: CustomSearchDelegate());
-                } else if(index==1){
+                } else if(currentIndex==1){
                   showSearch(context: context, delegate: FavSearch());
                 }
 
@@ -52,7 +52,10 @@ class _HomeState extends State<Home> {
         ],
       ),
       drawer: const NavBar(),
-      body: pages[index],
+      body: IndexedStack(
+        index: currentIndex,
+        children: pages,
+      ),
       bottomNavigationBar: Container(
         margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
@@ -71,7 +74,7 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(15),
             onTabChange: (int num) {
               setState(() {
-                index = num;
+                currentIndex = num;
               });
             },
             tabs: [

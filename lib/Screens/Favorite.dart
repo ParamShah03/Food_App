@@ -260,14 +260,4 @@ class _FavoriteDataState extends State<FavoriteData> {
     );
   }
 
-  // Future createFavourite(Favs favs) async{
-  //   final docFavs = FirebaseFirestore.instance.collection('favourites').doc();
-  //   favs.id = docFavs.id;
-  //   docId= favs.id;
-  //   final json = favs.toJson();
-  //   await docFavs.set(json);
-  //   widget.c = widget.c + 1;
-  // }
-
-
 }

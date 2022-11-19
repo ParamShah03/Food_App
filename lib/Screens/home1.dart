@@ -19,19 +19,24 @@ class _Home1State extends State<Home1> {
 
   List<Recipes> _recipesList = [];
   String? query;
-  getRecipeData() async {
+  Future getRecipeData() async {
     _recipesList = await ApiService().getApiData(query)!;
     print(_recipesList.length);
    }
+   Future reFresh() async {
+    setState(() {});
+   }
 
-  @override
-  void initState() {
-    getRecipeData();
-    super.initState();
-  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getRecipeData();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: FutureBuilder(
         future: getRecipeData(),
@@ -40,34 +45,44 @@ class _Home1State extends State<Home1> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else if(snapshot.connectionState == ConnectionState.done){
-            return ListView.separated(
-              shrinkWrap: true,
-              itemCount: _recipesList!.length,
-              itemBuilder: (BuildContext context, int index) {
-                Recipes recipe = _recipesList[index];
-                return RecipesData(
-                    title: recipe.title!,
-                    image: recipe.image!,
-                    isVeg: recipe.vegetarian,
-                    time: recipe.readyInMinutes.toString(),
-                    info: recipe.instructions!,
-                    servings: recipe.servings.toString(),
-                    c: 0,
-                    docId: ''
-                  //cuisine: recipe.cuisines[0]
-                );
-              },
-              separatorBuilder: (context,index){
-                return SizedBox(height: 5,);
-              },
-            );
+          } else if(snapshot.hasError){
+             return
+               Center(
+                 child: SnackBar(content: Text(snapshot.error.toString(),
+                   style: TextStyle(letterSpacing: 1.5),),
+                   behavior: SnackBarBehavior.floating,
+                   backgroundColor: Colors.redAccent,
+                 ),
+               );
+
           }
           else {
-            return Center(child: Text(
-              "Some error occured. Please try again!"
-            ),);
+            return RefreshIndicator(
+              onRefresh: reFresh,
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: _recipesList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Recipes recipe = _recipesList[index];
+                  return RecipesData(
+                      title: recipe.title!,
+                      image: recipe.image!,
+                      isVeg: recipe.vegetarian,
+                      time: recipe.readyInMinutes.toString(),
+                      info: recipe.instructions!,
+                      servings: recipe.servings.toString(),
+                      c: 0,
+                      docId: ''
+                    //cuisine: recipe.cuisines[0]
+                  );
+                },
+                separatorBuilder: (context,index){
+                  return SizedBox(height: 5,);
+                },
+              ),
+            );
           }
+
           // else {
           //   return Center(child: Text('Some Error Occured'),);
           // }
@@ -121,7 +136,7 @@ class _RecipesDataState extends State<RecipesData> {
     widget.c = widget.c + 1;
   }
 
-  void deleteFavorite() async {
+  Future deleteFavorite() async {
     final docFav =
     firestoreInstance.collection("users").doc(user?.uid).collection("Favorites").doc(docID);
     await docFav.delete();
@@ -205,9 +220,7 @@ class _RecipesDataState extends State<RecipesData> {
                         setState(() {
                           like = !like;
                         });
-
                         if(like==true && widget.c==0) {
-
                           createFavorite(Favs(
                               info: widget.info,
                               image: widget.image,
@@ -217,16 +230,9 @@ class _RecipesDataState extends State<RecipesData> {
                             servings: widget.servings,
                             id: widget.docId
                           ));
-                          // FavoriteProvider.addFavoriteData(
-                          //   title: widget.title,
-                          //   time: widget.time,
-                          //   servings: widget.servings,
-                          //   info: widget.info,
-                          //   image: widget.image,
-                          //   isVeg: widget.isVeg
-                          // );
-                        } if (like == false && widget.c > 0) {
-                          deleteFavorite();
+
+                        } else{
+                           deleteFavorite();
                         }
 
                       },
