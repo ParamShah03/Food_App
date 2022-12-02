@@ -1,4 +1,5 @@
 import 'package:app/LogIn/register.dart';
+import 'package:app/Screens/Forgot_Password.dart';
 import '../Screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -134,8 +135,9 @@ class _LogInState extends State<LogIn> {
                         try {
                           await FirebaseAuth.instance.signInWithEmailAndPassword(
                               email: email.text, password: password.text);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()),);
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()),);
                          errorMessage ='';
+                          Navigator.of(context).popUntil((route) => route.isFirst);
                         } on FirebaseAuthException catch (error){
                           errorMessage = error.message!;
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -146,7 +148,6 @@ class _LogInState extends State<LogIn> {
                           );
                         }
                         Navigator.of(context).pop();
-                          setState(() {});
 
                         },
 
@@ -154,6 +155,24 @@ class _LogInState extends State<LogIn> {
                         child: const Text('Sign In',
                           style: TextStyle(fontSize: 22.0,fontWeight: FontWeight.normal,letterSpacing: 2.5),
                         ),
+                      ),
+                    ),
+                    const SizedBox(height: 5,),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context, PageTransition(
+                            type: PageTransitionType.rightToLeftJoined,
+                            childCurrent: widget,
+                            duration: Duration(milliseconds: 400),
+                            reverseDuration: Duration(microseconds: 300),
+                            child: ForgotPassword()),);
+                      },
+                      child: Text('Forgot Password?',
+                          style: GoogleFonts.carterOne(
+                              textStyle: const TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w200,
+                                  decoration: TextDecoration.none
+                              ))
                       ),
                     ),
                     const SizedBox(height: 15),
@@ -165,7 +184,7 @@ class _LogInState extends State<LogIn> {
                         ),
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context, PageTransition(
                               type: PageTransitionType.rightToLeftJoined,
                                 childCurrent: widget,

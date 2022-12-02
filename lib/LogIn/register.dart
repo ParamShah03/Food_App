@@ -225,7 +225,7 @@ class _RegisterState extends State<Register> {
                                 "password": passwordController.text
                               }
                           );
-                          Navigator.push(context, PageTransition(
+                          Navigator.pushReplacement(context, PageTransition(
                             type: PageTransitionType.rotate,
                               alignment: Alignment.bottomCenter,
                               child: Home()),);
@@ -259,7 +259,8 @@ class _RegisterState extends State<Register> {
                         await provider.googleLogin();
                         if(FirebaseAuth.instance.currentUser!=null)
                         {
-                          Navigator.push(context, PageTransition(
+                          Navigator.pushReplacement(context,
+                            PageTransition(
                             type: PageTransitionType.rotate,
                               alignment: Alignment.bottomCenter,
                               child: Home()),);

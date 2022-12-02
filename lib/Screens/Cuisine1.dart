@@ -27,7 +27,7 @@ class _CuisineDisplayState extends State<CuisineDisplay> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(widget.name),
+            title: Text(widget.name + ' Cuisines'),
             centerTitle: true,
             backgroundColor: Colors.brown,
             shape: const RoundedRectangleBorder(
