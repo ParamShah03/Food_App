@@ -15,18 +15,25 @@ class Favorite extends StatefulWidget {
 
 class _FavoriteState extends State<Favorite> {
   var user = FirebaseAuth.instance.currentUser;
-  final firestoreInstance = FirebaseFirestore.instance;
+  final firestoreInstance = FirebaseFirestore.instance;// instance of firestore
+  Future reFresh() async {
+    setState(() {});
+  }
 
-  Stream<List<Favs>> readFavourites() =>
-      FirebaseFirestore.instance.collection('users').doc(user?.uid).collection(
-          'Favorite')
-          .snapshots().map((snapshot) =>
-          snapshot.docs.map((doc) => Favs.fromJson(doc.data())).toList());
+  Stream<List<Favs>> // receive a sequence of events
+  readFavourites() =>
+     FirebaseFirestore.instance.collection('users').doc(user?.uid).collection(// collection of current user
+        'Favorite') // snapshot is the result of the stream
+        .snapshots().map((snapshot) => // converting snapshot to list
+        snapshot.docs.map((doc) => // each document
+            Favs.fromJson(doc.data())) // all data
+            .toList());// decoding json
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<List<Favs>>(
+      body: StreamBuilder<List<Favs>>( // builder is called according to latest snapshot
           stream: readFavourites(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -34,9 +41,12 @@ class _FavoriteState extends State<Favorite> {
                 child: Text("Error occured!"),
               );
             } else if (snapshot.hasData) {
-              final favs = snapshot.data!;
-              return ListView(
-                children: favs.map(buildFavs).toList(),
+              final favs = snapshot.data!; // data passed in Favs favs
+              return RefreshIndicator(
+                onRefresh: reFresh,
+                child: ListView(
+                  children: favs.map(buildFavs).toList(),
+                ),
               );
             } else if (!snapshot.hasData) {
               return Center(
@@ -99,7 +109,7 @@ class _FavoriteDataState extends State<FavoriteData> {
     final docFav =
     firestoreInstance.collection("users").doc(user?.uid).collection("Favorite").doc(widget.docId);
     await docFav.delete();
-    widget.c = widget.c - 1;
+    await (widget.c = widget.c - 1);
   }
 
   @override
@@ -121,7 +131,9 @@ class _FavoriteDataState extends State<FavoriteData> {
                   info: widget.info!,
                   servings: widget.servings!,
                   //cuisine: widget.cuisine
-                )),);
+                )
+            ),
+            );
           },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 22, vertical: 10),
