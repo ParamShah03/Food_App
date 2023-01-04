@@ -227,7 +227,7 @@ class _NavBarState extends State<NavBar> {
                   provider.logOut();
                   await FirebaseAuth.instance.signOut();
                   //setState(() {});
-                  await Navigator.push(
+                  await Navigator.pushReplacement(
                     context,
                     PageTransition(
                       type: PageTransitionType.fade,
