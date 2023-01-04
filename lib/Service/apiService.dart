@@ -3,6 +3,7 @@ import 'dart:convert';
 import '../Models/models.dart';
 
 class ApiService{
+  // fields of class ApiService
   String? title;
   String? time;
   String? image;
@@ -11,28 +12,30 @@ class ApiService{
   String? info;
   bool? isVeg;
   String? e;
-  RecipesMain? recipesMain;
-  List<Recipes> _recipesList =[];
+  RecipesMain? recipesMain; // instance of class RecipesMain from model
+  List<Recipes> _recipesList =[]; //list of recipe class from model
 
   getApiData(String? query) async {
-
-    http.Response response = await http.get(Uri.parse(
-        'https://api.spoonacular.com/recipes/random?apiKey=790a770402d74aa7904fec399c6f59b4&number=20'
+    // the entire response body is known in advance
+    http.Response response = await http.get(Uri.parse(// converted to URL
+        'https://api.spoonacular.com/recipes/random?apiKey=790a770402d74aa7904fec399c6f59b4&number=1'
     ));
-    try{
-      if(response.statusCode == 200) {
-        var data = jsonDecode(response.body);
+    try{// unhandled exception
+      if(response.statusCode == 200) // properly working
+      {
+        var data = jsonDecode(response.body);// a map where keys are string and values dynamic
         print(response.statusCode);
 
-        var recipesMain = RecipesMain.fromJson(data);
-        _recipesList = recipesMain.recipes;
+        var recipesMain = RecipesMain.fromJson(data);// passing parsed json
+        _recipesList = recipesMain.recipes;// recipes is a list
         if(query!=null){
+          // converting title to list
           _recipesList = _recipesList!.where((element) => element.title!.toLowerCase().contains(query.toLowerCase())).toList();
         }
       } else {
         print(response.statusCode);
 
-      }
+      } // function has to return list of recipes
       return _recipesList;
     } catch(e){
       print(e);
@@ -41,4 +44,3 @@ class ApiService{
   }
 
 }
-
