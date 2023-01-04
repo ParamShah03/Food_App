@@ -225,7 +225,7 @@ class _RegisterState extends State<Register> {
                                 "password": passwordController.text
                               }
                           );
-                          Navigator.push(context, PageTransition(
+                          Navigator.pushReplacement(context, PageTransition(
                             type: PageTransitionType.rotate,
                               alignment: Alignment.bottomCenter,
                               child: Home()),);
@@ -255,11 +255,13 @@ class _RegisterState extends State<Register> {
                     const Divider(color: Colors.white, thickness: 3, height: 10,),
                     GestureDetector(
                       onTap: () async {
+                        // recalling provider
                         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                         await provider.googleLogin();
                         if(FirebaseAuth.instance.currentUser!=null)
                         {
-                          Navigator.push(context, PageTransition(
+                          Navigator.pushReplacement(context,
+                            PageTransition(
                             type: PageTransitionType.rotate,
                               alignment: Alignment.bottomCenter,
                               child: Home()),);
