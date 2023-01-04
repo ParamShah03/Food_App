@@ -1,22 +1,31 @@
 class RecipesMain {
+  // constructor
   RecipesMain({
+    // recipes can't be null
     required this.recipes,
   });
-  late final List<Recipes> recipes;
-
-  RecipesMain.fromJson(Map<String?, dynamic> json){
-    recipes = List.from(json['recipes']).map((e)=>Recipes.fromJson(e)).toList();
+  late final List<Recipes> recipes;// declaring Recipes list and initialising later
+  // recipes is in JSON string format(can be null)
+  RecipesMain.fromJson(Map<String?, dynamic> json)// map name json
+  { // named constructor
+    recipes = List.from // creates a list
+      (json['recipes']) // for many recipes
+        .map((e)=>Recipes.fromJson(e))// json decode 2 times
+        .toList();
   }
 
-  Map<String?, dynamic> toJson() {
-    final _data = <String?, dynamic>{};
+  Map<String?, dynamic> toJson()
+  { // method
+    final _data = <String?, dynamic>{}; // type map
     _data['recipes'] = recipes.map((e)=>e.toJson()).toList();
     return _data;
   }
 }
 
 class Recipes {
+  //constructor for Recipes
   Recipes({
+    // all fields of a particular recipe
     required this.vegetarian,
     required this.vegan,
     required this.glutenFree,
@@ -54,6 +63,7 @@ class Recipes {
     this.originalId,
     required this.spoonacularSourceUrl,
   });
+  //declaring all fields
   late final bool vegetarian;
   late final bool vegan;
   late final bool glutenFree;
@@ -73,7 +83,7 @@ class Recipes {
   late final String? license;
   late final String? sourceName;
   late final double pricePerServing;
-  late final List<ExtendedIngredients> extendedIngredients;
+  late final List<ExtendedIngredients> extendedIngredients; //list of type (class)ExtendedIngredients
   late final int id;
   late final String? title;
   late final int readyInMinutes;
@@ -82,7 +92,7 @@ class Recipes {
   late final String? image;
   late final String? imageType;
   late final String? summary;
-  late final List<dynamic> cuisines;
+  late final List<dynamic> cuisines; //list can be null
   late final List<String?> dishTypes;
   late final List<String?> diets;
   late final List<dynamic> occasions;
@@ -92,6 +102,7 @@ class Recipes {
   late final String? spoonacularSourceUrl;
 
   Recipes.fromJson(Map<String?, dynamic> json){
+    // decoding a particular recipe
     vegetarian = json['vegetarian'];
     vegan = json['vegan'];
     glutenFree = json['glutenFree'];
@@ -111,6 +122,7 @@ class Recipes {
     license = json['license'];
     sourceName = json['sourceName'];
     pricePerServing = json['pricePerServing'];
+    // nested json
     extendedIngredients = List.from(json['extendedIngredients']).map((e)=>ExtendedIngredients.fromJson(e)).toList();
     id = json['id'];
     title = json['title'];

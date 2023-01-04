@@ -12,7 +12,7 @@ class FavoriteProvider with ChangeNotifier {
     required bool isVeg
 
   }) async {
-    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();// unique value
     FirebaseFirestore.instance
         .collection('favourites')
         .doc(id)
@@ -28,14 +28,14 @@ class FavoriteProvider with ChangeNotifier {
       },
     );
   }
-  List<FavoriteModel> Favoritelist = [];
+  List<FavoriteModel> Favoritelist = [];// list containing Favorites
   getFavoriteData() async {
     List<FavoriteModel> newlist = [];
     QuerySnapshot value = (await FirebaseFirestore.instance
         .collection('favourites')
         .doc()
         .get()) as QuerySnapshot<Object?>;
-    value.docs.forEach((element) {
+    value.docs.forEach((element) {// list of documents in snapshot
       FavoriteModel favoriteModel = FavoriteModel(
           title: element.get('title'),
           servings: element.get('servings').toString(),
@@ -45,11 +45,11 @@ class FavoriteProvider with ChangeNotifier {
           isVeg: element.get('isVeg')
       );
 
-
-      newlist.add(favoriteModel);
+      newlist.add(favoriteModel);// adding the favorite to new list
     });
     Favoritelist = newlist;
     notifyListeners();
+
   }
   List<FavoriteModel> get getWishlist{
     return Favoritelist;
