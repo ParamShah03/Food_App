@@ -103,4 +103,3 @@ class CustomSearchDelegate extends SearchDelegate{
     _recipesList = await ApiService().getApiData(query)!;
   }
 }
-
