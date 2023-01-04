@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../Models/Cuisine_model.dart';
 
-class NutrientsServive{
+class NutrientsService{
   var results= <NutrientsModel>[];
   Future<List<NutrientsModel>> getNutrientsData(int? minCarbs,maxCarbs) async{
     String apiKey = "790a770402d74aa7904fec399c6f59b4";
