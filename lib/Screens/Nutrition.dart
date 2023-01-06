@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +15,7 @@ class Nutrition extends StatefulWidget {
 
 class _NutritionState extends State<Nutrition> {
   File? image;
+  String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +97,11 @@ class _NutritionState extends State<Nutrition> {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
       File imagePath = await saveImagePermanently(image.path);
+      name = image.name;
       setState(() {
         this.image = imagePath;
       });
+      uploadFile();
     } on PlatformException catch (e) {
       print('Failed to pick image:$e');
     }
@@ -108,5 +112,14 @@ class _NutritionState extends State<Nutrition> {
     final name = basename(path);
     final image = File('${directory.path}/$name');
     return File(path).copy(image.path);
+  }
+
+  Future uploadFile() async {
+    final path = 'images/$name';
+    final ref = FirebaseStorage.instance.ref().child(path);
+    var uploadTask = ref.putFile(image!);
+    final snapshot = await uploadTask!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    print('Dowload link:$urlDownload');
   }
 }
