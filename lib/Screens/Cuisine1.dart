@@ -17,7 +17,7 @@ class _CuisineDisplayState extends State<CuisineDisplay> {
   Future reFresh() async {
     setState(() {});
   }
-  List<Results> _CuisineList = [];
+  List<Results> _CuisineList = [];// results model
   Future getCuisine() async {
     _CuisineList = await CuisineService().getCuisinesData(cuisine: widget.name);
     print(_CuisineList.length);
@@ -36,7 +36,7 @@ class _CuisineDisplayState extends State<CuisineDisplay> {
 
         ),
         body: FutureBuilder(
-            future: getCuisine(),
+            future: getCuisine(),// waits for data input
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -44,7 +44,7 @@ class _CuisineDisplayState extends State<CuisineDisplay> {
                 );
               } else if(snapshot.hasError){
                 return
-                  Center(
+                  Center(// pop up message
                     child: SnackBar(content: Text(snapshot.error.toString(),
                       style: TextStyle(letterSpacing: 1.5),),
                       behavior: SnackBarBehavior.floating,
@@ -56,11 +56,11 @@ class _CuisineDisplayState extends State<CuisineDisplay> {
               else {
                 return RefreshIndicator(
                   onRefresh: reFresh,
-                  child: ListView.separated(
+                  child: ListView.separated(// builds list of cuisines
                     shrinkWrap: true,
                     itemCount: _CuisineList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Results results = _CuisineList[index];
+                    itemBuilder: (BuildContext context, int index) {// index refers to main indexes in list
+                      Results results = _CuisineList[index];// stored in instance of class results
                       return CuisineInfo(
                         title: results.title,
                         image: results.image

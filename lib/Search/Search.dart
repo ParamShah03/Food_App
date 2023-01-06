@@ -5,7 +5,9 @@ import '../Service/apiService.dart';
 
 
 class CustomSearchDelegate extends SearchDelegate{
-  List<Recipes>? _recipesList;
+
+  List<Recipes>? _recipesList1;
+
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -41,9 +43,9 @@ class CustomSearchDelegate extends SearchDelegate{
           }
           return ListView.separated(
             shrinkWrap: true,
-            itemCount: _recipesList!.length,
+            itemCount: _recipesList1!.length,
             itemBuilder: (BuildContext context, int index) {
-              Recipes recipe = _recipesList![index];
+              Recipes recipe = _recipesList1![index];
               return RecipesData(
                 title: recipe.title!,
                 c: 0,
@@ -66,7 +68,7 @@ class CustomSearchDelegate extends SearchDelegate{
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return FutureBuilder(
+   return FutureBuilder(
         future: getRecipeData(query: query),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -76,9 +78,9 @@ class CustomSearchDelegate extends SearchDelegate{
           }
           return ListView.separated(
             shrinkWrap: true,
-            itemCount: _recipesList!.length,
+            itemCount: _recipesList1!.length,
             itemBuilder: (BuildContext context, int index) {
-              Recipes recipe = _recipesList![index];
+              Recipes recipe = _recipesList1![index];
               return RecipesData(
                 title: recipe.title!,
                 c: 0,
@@ -98,9 +100,26 @@ class CustomSearchDelegate extends SearchDelegate{
         }
     );
   }
+  // SearchRecipe({String? query}) async {
+  //   try {
+  //     if (query != null) {
+  //       _recipesList2 = recipesList!.where((element) =>
+  //           element.title!.toLowerCase().contains(query.toLowerCase()))
+  //           .toList();
+  //       print(query);
+  //       return _recipesList2;
+  //     } else {
+  //       return _recipesList1;
+  //     }
+  //   } catch (e){
+  //     print(e);
+  //   }
+  //
+  //
+  // }
 
   getRecipeData({required String? query}) async {
-    _recipesList = await ApiService().getApiData(query)!;
+    _recipesList1 = await ApiService().getApiData(query)!;
   }
 }
 
