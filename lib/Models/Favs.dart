@@ -32,7 +32,7 @@ class Favs{
 
   };
 
-  static Favs fromJson(Map<String,dynamic>json)=>Favs(// calling the main function
+  static Favs fromJson(Map<String,dynamic>json)=>Favs(
     title:json["title"],
     time:json["time"],
     servings:json["servings"],

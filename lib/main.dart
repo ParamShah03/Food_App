@@ -9,11 +9,11 @@ import 'Service/googleSignIn.dart';
 
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // binding of the root(app) widget to the engine
-  await Firebase.initializeApp(); // initialises firebase before doing anything else
-  runApp(ChangeNotifierProvider( // set state of provider
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(ChangeNotifierProvider(
       create: (context)=> GoogleSignInProvider(),
-    child: const MaterialApp(
+    child: MaterialApp(
         home: Main(),
         debugShowCheckedModeBanner: false
     ),
@@ -29,13 +29,13 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  // checking the login state of user
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<User?>( // builds stream of user account
-        stream: FirebaseAuth.instance.authStateChanges(), // sign in or sign out(async)
-        builder: (context, snapshot){ // context of state stored as snapshot
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot){
           if(snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator(),);
           } else if(snapshot.hasError) {
