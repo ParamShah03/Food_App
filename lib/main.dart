@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'Screens/home.dart';
 import 'Service/googleSignIn.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

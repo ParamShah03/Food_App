@@ -29,19 +29,25 @@ class _CuisineState extends State<Cuisine> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      child: CuisineDisplay(
-                        name: cuisinesList[0]
-                      )),
+                      child: CuisineDisplay(name: cuisinesList[0])),
                 );
               },
-              leading: Icon(Icons.restaurant_menu_outlined, size: 25,),
-              title: Text(cuisinesList[0],
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25,letterSpacing: 2),
+              leading: Icon(
+                Icons.restaurant_menu_outlined,
+                size: 25,
+              ),
+              title: Text(
+                cuisinesList[0],
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 25,
+                    letterSpacing: 2),
               ),
               tileColor: Colors.brown[100],
               shape: RoundedRectangleBorder(
@@ -52,19 +58,25 @@ class _CuisineState extends State<Cuisine> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      child: CuisineDisplay(
-                          name: cuisinesList[1]
-                      )),
+                      child: CuisineDisplay(name: cuisinesList[1])),
                 );
               },
-              leading: Icon(Icons.restaurant_menu_outlined, size: 25,),
-              title: Text(cuisinesList[1],
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25,letterSpacing: 2),
+              leading: Icon(
+                Icons.restaurant_menu_outlined,
+                size: 25,
+              ),
+              title: Text(
+                cuisinesList[1],
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 25,
+                    letterSpacing: 2),
               ),
               tileColor: Colors.brown[100],
               shape: RoundedRectangleBorder(
@@ -75,19 +87,25 @@ class _CuisineState extends State<Cuisine> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      child: CuisineDisplay(
-                          name: cuisinesList[2]
-                      )),
+                      child: CuisineDisplay(name: cuisinesList[2])),
                 );
               },
-              leading: Icon(Icons.restaurant_menu_outlined, size: 25,),
-              title: Text(cuisinesList[2],
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25,letterSpacing: 2),
+              leading: Icon(
+                Icons.restaurant_menu_outlined,
+                size: 25,
+              ),
+              title: Text(
+                cuisinesList[2],
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 25,
+                    letterSpacing: 2),
               ),
               tileColor: Colors.brown[100],
               shape: RoundedRectangleBorder(
@@ -98,19 +116,25 @@ class _CuisineState extends State<Cuisine> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      child: CuisineDisplay(
-                          name: cuisinesList[3]
-                      )),
+                      child: CuisineDisplay(name: cuisinesList[3])),
                 );
               },
-              leading: Icon(Icons.restaurant_menu_outlined, size: 25,),
-              title: Text(cuisinesList[3],
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25,letterSpacing: 2),
+              leading: Icon(
+                Icons.restaurant_menu_outlined,
+                size: 25,
+              ),
+              title: Text(
+                cuisinesList[3],
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 25,
+                    letterSpacing: 2),
               ),
               tileColor: Colors.brown[100],
               shape: RoundedRectangleBorder(
@@ -121,19 +145,25 @@ class _CuisineState extends State<Cuisine> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      child: CuisineDisplay(
-                          name: cuisinesList[4]
-                      )),
+                      child: CuisineDisplay(name: cuisinesList[4])),
                 );
               },
-              leading: Icon(Icons.restaurant_menu_outlined, size: 25,),
-              title: Text(cuisinesList[4],
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25,letterSpacing: 2),
+              leading: Icon(
+                Icons.restaurant_menu_outlined,
+                size: 25,
+              ),
+              title: Text(
+                cuisinesList[4],
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 25,
+                    letterSpacing: 2),
               ),
               tileColor: Colors.brown[100],
               shape: RoundedRectangleBorder(
@@ -144,19 +174,25 @@ class _CuisineState extends State<Cuisine> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      child: CuisineDisplay(
-                          name: cuisinesList[5]
-                      )),
+                      child: CuisineDisplay(name: cuisinesList[5])),
                 );
               },
-              leading: Icon(Icons.restaurant_menu_outlined, size: 25,),
-              title: Text(cuisinesList[5],
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25,letterSpacing: 2),
+              leading: Icon(
+                Icons.restaurant_menu_outlined,
+                size: 25,
+              ),
+              title: Text(
+                cuisinesList[5],
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 25,
+                    letterSpacing: 2),
               ),
               tileColor: Colors.brown[100],
               shape: RoundedRectangleBorder(
@@ -167,19 +203,25 @@ class _CuisineState extends State<Cuisine> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      child: CuisineDisplay(
-                          name: cuisinesList[6]
-                      )),
+                      child: CuisineDisplay(name: cuisinesList[6])),
                 );
               },
-              leading: Icon(Icons.restaurant_menu_outlined, size: 25,),
-              title: Text(cuisinesList[6],
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25,letterSpacing: 2),
+              leading: Icon(
+                Icons.restaurant_menu_outlined,
+                size: 25,
+              ),
+              title: Text(
+                cuisinesList[6],
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 25,
+                    letterSpacing: 2),
               ),
               tileColor: Colors.brown[100],
               shape: RoundedRectangleBorder(
