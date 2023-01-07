@@ -1,4 +1,4 @@
-import 'package:app/Models/models.dart';
+import 'package:app/Screens/Nutrition.dart';
 import 'package:app/Search/FavSearch.dart';
 import 'package:app/LogIn/SignIn.dart';
 import 'package:app/Service/googleSignIn.dart';
@@ -14,9 +14,8 @@ import 'Favorite.dart';
 import '../Search/Search.dart';
 import 'home1.dart';
 
-
 class Home extends StatefulWidget {
-  Home({Key? key, }) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -24,14 +23,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentIndex = 0;
+  List<String> title = ['Home', 'Favorite', 'Cuisine', 'Nutrition'];
 
-  List<String> title = ['Home', 'Favorite', 'Cuisine'];
-  final pages = const [Home1(), Favorite(), Cuisine()];
-  @override
-  void initState() {
-
-    super.initState();
-  }
+  final pages = const [Home1(), Favorite(), Cuisine(), Nutrition()];
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +40,14 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
               onPressed: () {
-                if(currentIndex==0){
-                  //print((widget.recipelist!).length);
-                  showSearch(context: context, delegate: CustomSearchDelegate());
-                } else if(currentIndex==1){
+                if (currentIndex == 0) {
+                  showSearch(
+                      context: context, delegate: CustomSearchDelegate());
+                } else if (currentIndex == 1) {
                   showSearch(context: context, delegate: FavSearch());
                 }
-
               },
-              icon: Icon(Icons.search_sharp)
-          )
+              icon: Icon(Icons.search_sharp))
         ],
       ),
       drawer: const NavBar(),
@@ -96,6 +88,10 @@ class _HomeState extends State<Home> {
               GButton(
                 icon: Icons.restaurant,
                 text: title[2],
+              ),
+              GButton(
+                icon: Icons.auto_graph,
+                text: title[3],
               ),
             ],
           ),
@@ -184,7 +180,7 @@ class _NavBarState extends State<NavBar> {
                   Navigator.push(
                     context,
                     PageTransition(
-                      type: PageTransitionType.rightToLeftWithFade,
+                        type: PageTransitionType.rightToLeftWithFade,
                         child: Profile()),
                   );
                 },
@@ -224,7 +220,7 @@ class _NavBarState extends State<NavBar> {
                 onTap: () async {
                   showDialog(
                     context: context,
-                    builder: (context){
+                    builder: (context) {
                       return Center(child: CircularProgressIndicator());
                     },
                   );
@@ -234,11 +230,10 @@ class _NavBarState extends State<NavBar> {
                   provider.logOut();
                   await FirebaseAuth.instance.signOut();
                   //setState(() {});
-                  await Navigator.pushReplacement(
+                  await Navigator.push(
                     context,
                     PageTransition(
-                      type: PageTransitionType.fade,
-                        child: LogIn()),
+                        type: PageTransitionType.fade, child: LogIn()),
                   );
                   Navigator.of(context).pop();
                 },
@@ -251,8 +246,7 @@ class _NavBarState extends State<NavBar> {
               ),
             ),
           ],
-        )
-        );
+        ));
       },
     );
   }
