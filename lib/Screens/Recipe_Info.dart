@@ -139,7 +139,7 @@ class _DetailsState extends State<Details> {
                       children: [
                         Icon(Icons.restaurant),
                         SizedBox(width: 5,),
-                        Text("None"),
+                        Text("Delicious!"),
                       ],
                     ),
                     SizedBox(height: 5,),

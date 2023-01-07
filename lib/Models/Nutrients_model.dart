@@ -1,3 +1,4 @@
+
 class NutrientsModel {
   int? calories;
   String? carbs;
@@ -41,4 +42,5 @@ class NutrientsModel {
     data['title'] = this.title;
     return data;
   }
+
 }

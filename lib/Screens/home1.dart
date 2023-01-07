@@ -6,7 +6,7 @@ import '../Models/Favs.dart';
 import '../Models/models.dart';
 import '../Service/apiService.dart';
 import 'Recipe_Info.dart';
-import 'package:provider/provider.dart';
+import 'home.dart';
 
 class Home1 extends StatefulWidget {
   const Home1({Key? key}) : super(key: key);
@@ -22,7 +22,9 @@ class _Home1State extends State<Home1> {
   Future getRecipeData() async {
     // returns list of class recipes
     _recipesList = await ApiService().getApiData(query)!;
-    print(_recipesList.length);
+    //print(_recipesList.length);
+    //Home(recipelist: _recipesList);
+    //print(_recipesList);
    }
    Future reFresh() async {
     // refreshes recipes
@@ -202,7 +204,7 @@ class _RecipesDataState extends State<RecipesData> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.0),
                   child: Text(
-                    widget.title ,
+                    widget.title!= null ? widget.title: 'Title' ,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -296,7 +298,7 @@ class _RecipesDataState extends State<RecipesData> {
                             size: 18,
                           ),
                           SizedBox(width: 7),
-                          Text(widget.time + '\'',
+                          Text(widget.time!=null ? widget.time + '\'' : 10.toString(),
                             style: TextStyle(
                                 color: Colors.white,fontWeight: FontWeight.bold
                             ),

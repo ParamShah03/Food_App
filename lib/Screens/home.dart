@@ -1,3 +1,4 @@
+import 'package:app/Models/models.dart';
 import 'package:app/Search/FavSearch.dart';
 import 'package:app/LogIn/SignIn.dart';
 import 'package:app/Service/googleSignIn.dart';
@@ -15,7 +16,7 @@ import 'home1.dart';
 
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  Home({Key? key, }) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -23,9 +24,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentIndex = 0;
-  List<String> title = ['Home', 'Favorite', 'Cuisine'];
 
+  List<String> title = ['Home', 'Favorite', 'Cuisine'];
   final pages = const [Home1(), Favorite(), Cuisine()];
+  @override
+  void initState() {
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +45,9 @@ class _HomeState extends State<Home> {
         elevation: 0,
         actions: [
           IconButton(
-              onPressed: (){
+              onPressed: () {
                 if(currentIndex==0){
+                  //print((widget.recipelist!).length);
                   showSearch(context: context, delegate: CustomSearchDelegate());
                 } else if(currentIndex==1){
                   showSearch(context: context, delegate: FavSearch());
