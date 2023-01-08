@@ -21,7 +21,7 @@ class ApiService {
   getApiData(String? query) async {
     // the entire response body is known in advance
     http.Response response = await http.get(Uri.parse(// converted to URL
-        'https://api.spoonacular.com/recipes/random?apiKey=790a770402d74aa7904fec399c6f59b4&number=3'
+        'https://api.spoonacular.com/recipes/random?apiKey=790a770402d74aa7904fec399c6f59b4&number=1'
     ));
     try{// unhandled exception
       if(response.statusCode == 200) // properly working

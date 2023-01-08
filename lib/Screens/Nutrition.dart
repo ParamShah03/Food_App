@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'package:app/Screens/BarChart.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
@@ -87,6 +89,14 @@ class _NutritionState extends State<Nutrition> {
                     side: BorderSide(width: 2),
                     borderRadius: BorderRadius.circular(10)),
               )),
+          ElevatedButton(
+              onPressed:() {
+                Navigator.pushReplacement(context, PageTransition(
+                    type: PageTransitionType.rotate,
+                    alignment: Alignment.bottomCenter,
+                    child: BarCard()),);
+              },
+              child: Text("BarChart"))
         ],
       ),
     );

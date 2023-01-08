@@ -49,6 +49,7 @@ dependencies:
   html: ^0.15.1
   sliding_up_panel: ^2.0.0+1
   image_picker: ^0.8.6
+  fl_chart: ^0.55.2
   path_provider: ^2.0.11
   file_picker: ^5.2.4
   firebase_storage: ^11.0.10
