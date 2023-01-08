@@ -5,10 +5,10 @@ import '../Models/Cuisine_model.dart';
 
 class NutrientsService{
   var results= <NutrientsModel>[];
-  Future<List<NutrientsModel>> getNutrientsData(int? minCarbs,maxCarbs) async{
+  Future<List<NutrientsModel>> getNutrientsData(String? Url) async{
     String apiKey = "790a770402d74aa7904fec399c6f59b4";
-    String baseUrl = "https://api.spoonacular.com/recipes/findByNutrients";
-    String url = "$baseUrl?minCarbs=$minCarbs&maxCarbs=$maxCarbs&number=2&apiKey=$apiKey";
+    String baseUrl = "https://api.spoonacular.com/food/images/analyze";
+    String url = "$baseUrl?imageUrl=$Url&apiKey=$apiKey";
     http.Response response = await http.get(Uri.parse(url));
     try{
       if (response.statusCode == 200){
